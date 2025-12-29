@@ -1,6 +1,6 @@
 # YuNet-GPU
 
-While working on Face Detection & Recognition at (company name) I came across a lightweight face detector model — **YuNet**.
+While working on Face Detection & Recognition I came across a lightweight face detector model — **YuNet**.
 
 You can use it through the OpenCV Python library and it’s really easy, but GPU inference often means building OpenCV with CUDA support, which can be painful and can also cause conflicts with other dependencies.
 
