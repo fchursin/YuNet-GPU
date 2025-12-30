@@ -172,8 +172,7 @@ class YuNet:
         strides: Tuple[int, int, int] = (8, 16, 32)
         divisor = 32
 
-        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
+        device = torch.device("cpu")
         pad_w = ((inputW - 1) // divisor + 1) * divisor
         pad_h = ((inputH - 1) // divisor + 1) * divisor
 
@@ -232,8 +231,8 @@ class YuNet:
         boxes_xywh = faces[:, 0:4].detach().cpu().numpy()  
         scores_np = faces[:, 14].detach().cpu().numpy()    
         idxs = cv2.dnn.NMSBoxes(
-            bboxes=boxes_xywh.tolist(),
-            scores=scores_np.tolist(),
+            bboxes=boxes_xywh,
+            scores=scores_np,
             score_threshold=float(score_thresh),
             nms_threshold=float(iou_thresh),
             top_k=int(top_k),
@@ -257,7 +256,7 @@ class YuNet:
         faces[:, 4:14:2] = (faces[:, 4:14:2] - pad_x) / scale  # kp x
         faces[:, 5:14:2] = (faces[:, 5:14:2] - pad_y) / scale  # kp y
 
-        return faces.detach().cpu().numpy()
+        return faces.numpy()
 
     def detect(self, image: np.ndarray, score_threshold: float = 0.6, iou_threshold: float = 0.3, top_k: int = 5000,) -> Optional[np.ndarray]:
         """
